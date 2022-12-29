@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private GameObject themePanel;
+    [SerializeField] private ThemePanelController themePanel;
 
     public void ShowThemePanel()
     {
-        themePanel.SetActive(true);
+        Debug.Log("Theme Panel Showed");
+        themePanel.Show(Manager.Instance.GetThemeDatas());
     }
 
     public void HideThemePanel()
     {
-        themePanel.SetActive(false);
+        themePanel.Hide();
     }
 }

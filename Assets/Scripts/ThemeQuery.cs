@@ -16,6 +16,11 @@ public class ThemeQuery : BaseQuery
         return themeDatas as List<T>;
     }
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
     protected override void Query()
     {
         var dbCon = new SqliteConnection(dbPath);
