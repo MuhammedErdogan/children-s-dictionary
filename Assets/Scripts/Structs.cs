@@ -10,3 +10,13 @@ public struct ThemeData
     public string themeName;
     public Sprite themeImage;
 }
+
+[System.Serializable]
+public struct WordData
+{
+    public int themeId;
+    public string word;
+    public string sentence;
+    public Sprite image;
+    public AudioClip audio;
+}

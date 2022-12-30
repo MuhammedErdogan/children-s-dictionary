@@ -1,17 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Data;
-using Mono.Data.Sqlite;
-using Mono.Data;
 using UnityEngine.UI;
-using System.Drawing;
+using Mono.Data.Sqlite;
 
 public class ThemeQuery : BaseQuery
 {
     [SerializeField] private List<ThemeData> themeDatas = new();
 
-    public override List<T> GetQueryResult<T>() 
+    public override List<T> GetQueryResult<T>(object[] objects)
     {
         return themeDatas as List<T>;
     }
@@ -19,15 +16,16 @@ public class ThemeQuery : BaseQuery
     protected override void Awake()
     {
         base.Awake();
+        Query(null);
     }
 
-    protected override void Query()
+    protected override void Query(object[] objects)
     {
         var dbCon = new SqliteConnection(dbPath);
         dbCon.Open();
 
         var dbCmd = dbCon.CreateCommand();
-        string sqlQuery = "SELECT themeID, theme, image FROM images INNER JOIN themes on themes.imageID = images.imageID;";
+        string sqlQuery = "SELECT themeID, theme, image FROM images INNER JOIN themes on themes.imageID = images.imageID";
         dbCmd.CommandText = sqlQuery;
 
         var reader = dbCmd.ExecuteReader();
