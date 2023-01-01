@@ -20,3 +20,18 @@ public struct WordData
     public Sprite image;
     public AudioClip audio;
 }
+
+[System.Serializable]
+public struct Mascot
+{
+    public Gender gender;
+    public string name;
+    public MascotEmotionStruct[] emotionStructs;
+}
+
+[System.Serializable]
+public struct MascotEmotionStruct
+{
+    public MascotEmotion emotion;
+    public Sprite image;
+}

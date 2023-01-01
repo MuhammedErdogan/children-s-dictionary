@@ -19,7 +19,6 @@ public class ThemePanelController : MonoBehaviour
 
         for (int i = 0; i < themeDatas.Count; i++)
         {
-            Debug.Log(themeDatas[i].themeId);
             themeButtons[i].gameObject.SetActive(true);
             //themeButtons[i].onClick.AddListener(() => UIManager.Instance.ShowWordPanel(themeDatas[i].themeId));
             themeButtons[i].GetComponent<Image>().sprite = themeDatas[i].themeImage;

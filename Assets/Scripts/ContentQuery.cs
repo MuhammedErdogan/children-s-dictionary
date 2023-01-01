@@ -26,16 +26,16 @@ public class ContentQuery : BaseQuery
         var dbCon = new SqliteConnection(dbPath);
         dbCon.Open();
 
-        int id = (int)objects[0];
+        int themeID = (int)objects[0];
 
         var dbCmd = dbCon.CreateCommand();
         string sqlQuery =
-            "SELECT word, image, audio, sentence \r\n " +
+            "SELECT wordID ,word, image, audio, sentence \r\n " +
             "FROM words JOIN themes on themes.themeID = words.themeID\r\n" +
             "JOIN images on images.imageID = words.imageID\r\n" +
             "JOIN audios on audios.audioID = words.audioID\r\n" +
             "JOIN sentences ON words.sentenceID = sentences.sentenceID \r\n" +
-            $"Where themes.themeID = {id}";
+            $"Where themes.themeID = {themeID}";
         dbCmd.CommandText = sqlQuery;
 
         var reader = dbCmd.ExecuteReader();
@@ -44,34 +44,34 @@ public class ContentQuery : BaseQuery
         {
             while (reader.Read())
             {
-                string word = reader.GetString(0);
+                int wordID = reader.GetInt32(0);
+                string word = reader.GetString(1);
 
-
-                byte[] data = (byte[])reader.GetValue(1);
+                byte[] data = (byte[])reader.GetValue(2);
 
                 Texture2D texture = new Texture2D(1, 1);
                 texture.LoadImage(data);
                 Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
 
+                //byte[] audioData = (byte[])reader.GetValue(2);
 
-                byte[] audioData = (byte[])reader.GetValue(2);
+                //byte[] audioDataCuted = new byte[audioData.Length - 44];
+                //Array.Copy(audioData, 44, audioDataCuted, 0, audioData.Length - 44);
+                //float[] audio = new float[audioDataCuted.Length / 4];
 
-                byte[] audioDataCuted = new byte[audioData.Length - 44];
-                Array.Copy(audioData, 44, audioDataCuted, 0, audioData.Length - 44);
-                float[] audio = new float[audioDataCuted.Length / 4];
+                //for (int i = 1; i < audio.Length; i++)
+                //{
+                //    float sample = BitConverter.ToSingle(audioData, i * 4);
+                //    sample *= 2147483647f;
+                //    audio[i] = sample;
+                //}
 
-                for (int i = 1; i < audio.Length; i++)
-                {
-                    float sample = BitConverter.ToSingle(audioData, i * 4);
-                    sample *= 2147483647f;
-                    audio[i] = sample;
-                }
+                //AudioClip audioClip = AudioClip.Create(word, audio.Length, 2, 44100, false);
+                //audioClip.SetData(audio, 0);
 
-                AudioClip audioClip = AudioClip.Create(word, audio.Length, 2, 44100, false);
-                audioClip.SetData(audio, 0);
+                AudioClip audioClip = Resources.Load($"Themes/{themeID}/{wordID}") as AudioClip;
 
-
-                string sentence = reader.GetString(3);
+                string sentence = reader.GetString(4);
 
                 wordDatas.Add(new WordData() { word = word, sentence = sentence, image = sprite, audio = audioClip });
             }

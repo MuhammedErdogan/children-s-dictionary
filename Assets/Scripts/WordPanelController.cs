@@ -14,6 +14,7 @@ public class WordPanelController : MonoBehaviour
 
     private void Init()
     {
+        Camera.main.GetComponent<AudioSource>().clip = wordDatas[0].audio;
         SetData(wordDatas[0]);
         wordDatas.RemoveAt(0);
     }
@@ -45,6 +46,7 @@ public class WordPanelController : MonoBehaviour
             wordDatas.RemoveAt(0);
             if (wordDatas.Count > 0)
             {
+                Camera.main.GetComponent<AudioSource>().clip = wordDatas[0].audio;
                 SetData(wordDatas[0]);
             }
             else
@@ -52,5 +54,10 @@ public class WordPanelController : MonoBehaviour
                 Hide();
             }
         }
+    }
+
+    public void PlayAudio()
+    {
+        Camera.main.GetComponent<AudioSource>().Play();
     }
 }
