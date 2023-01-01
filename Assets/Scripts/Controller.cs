@@ -30,7 +30,7 @@ public class Controller : MonoBehaviour
 
         if (PlayerPrefs.GetInt(MascotController.Instance.Mascot.name) == 1)
         {
-            MascotController.Instance.SetMascotDialog("Hoþgeldin! Hadi bir tema seç ve yeni kelimeler öðrenelim.");
+            MascotController.Instance.SetMascotDialog("Hoþ geldin! Hadi bir tema seç ve yeni kelimeler öðrenelim.");
             yield break;
         }
 
