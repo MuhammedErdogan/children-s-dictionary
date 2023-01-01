@@ -14,7 +14,7 @@ public struct ThemeData
 [System.Serializable]
 public struct WordData
 {
-    public int themeId;
+    public string theme;
     public string word;
     public string sentence;
     public Sprite image;

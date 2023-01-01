@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,9 +10,14 @@ public class MascotController : MonoBehaviour
     public static MascotController Instance;
     #endregion
 
+    [SerializeField] private TextMeshProUGUI mascotName;
     [SerializeField] private Mascot mascot;
     [SerializeField] private Image mascotImage;
-    [SerializeField] private Animator mascotAnimator;
+    [SerializeField] private TextMeshProUGUI mascotDialogText;
+
+    public Mascot Mascot => mascot;
+
+    private Coroutine textCoroutine;
 
     private void Awake()
     {
@@ -22,6 +28,7 @@ public class MascotController : MonoBehaviour
     {
         this.mascot = mascot;
         mascotImage.sprite = mascot.emotionStructs[0].image;
+        mascotName.text = mascot.name.ToUpper();
     }
 
     public void SetMascotEmotion(MascotEmotion emotion)
@@ -39,39 +46,10 @@ public class MascotController : MonoBehaviour
         mascotImage.sprite = mascot.emotionStructs[(int)System.Enum.Parse(typeof(MascotEmotion), emotion)].image;
     }
 
-    public void SetMascotEmotion(MascotEmotion emotion, bool isAnimation)
+    public void SetMascotDialog(string sentence, float delay = .1f)
     {
-        if (isAnimation)
-        {
-            mascotAnimator.SetTrigger(emotion.ToString());
-        }
-        else
-        {
-            mascotImage.sprite = mascot.emotionStructs[(int)emotion].image;
-        }
-    }
+        if (textCoroutine != null) StopCoroutine(textCoroutine);
 
-    public void SetMascotEmotion(int emotion, bool isAnimation)
-    {
-        if (isAnimation)
-        {
-            mascotAnimator.SetTrigger(mascot.emotionStructs[emotion].emotion.ToString());
-        }
-        else
-        {
-            mascotImage.sprite = mascot.emotionStructs[emotion].image;
-        }
-    }
-
-    public void SetMascotEmotion(string emotion, bool isAnimation)
-    {
-        if (isAnimation)
-        {
-            mascotAnimator.SetTrigger(emotion);
-        }
-        else
-        {
-            mascotImage.sprite = mascot.emotionStructs[(int)System.Enum.Parse(typeof(MascotEmotion), emotion)].image;
-        }
+        textCoroutine = StartCoroutine(mascotDialogText.AnimateText(sentence, delay));
     }
 }

@@ -16,18 +16,6 @@ public class UIManager : MonoBehaviour
         Instance = this;
         themePanel.Init(Manager.Instance.GetThemeDatas);
     }
-    
-    public void ShowThemePanel()
-    {
-        Debug.Log("Theme Panel Showed");
-        themePanel.Show();
-    }
-
-    public void HideThemePanel()
-    {
-        Debug.Log("Theme Panel Hided");
-        themePanel.Hide();
-    }
 
     public void ShowWordPanel(int themeId)
     {

@@ -7,7 +7,8 @@ public enum MascotEmotion
     Happy,
     VeryHappy,
     Talking,
-    Surprised,
+    Congrulation,
+    Congrulation_2,
     Neutral,
 }
 
