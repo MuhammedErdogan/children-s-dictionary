@@ -30,10 +30,9 @@ public class ContentQuery : BaseQuery
 
         var dbCmd = dbCon.CreateCommand();
         string sqlQuery =
-            "SELECT theme, wordID ,word, image, audio, sentence \r\n " +
+            "SELECT theme, wordID ,word, image, sentence \r\n " +
             "FROM words JOIN themes on themes.themeID = words.themeID\r\n" +
             "JOIN images on images.imageID = words.imageID\r\n" +
-            "JOIN audios on audios.audioID = words.audioID\r\n" +
             "JOIN sentences ON words.sentenceID = sentences.sentenceID \r\n" +
             $"Where themes.themeID = {themeID}";
         dbCmd.CommandText = sqlQuery;
@@ -55,10 +54,12 @@ public class ContentQuery : BaseQuery
                 Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
 
                 AudioClip audioClip = Resources.Load($"Themes/{themeID}/{wordID}") as AudioClip;
+                int v = wordID % 1000;
+                AudioClip wordAudio = Resources.Load($"Themes/{themeID}/{((wordID - v) * 10) + v}") as AudioClip;
+                Debug.Log(((wordID - v) * 10) + v);
+                string sentence = reader.GetString(4);
 
-                string sentence = reader.GetString(5);
-
-                wordDatas.Add(new WordData() { theme = theme, word = word, sentence = sentence, image = sprite, audio = audioClip });
+                wordDatas.Add(new WordData() { theme = theme, word = word, sentence = sentence, image = sprite, audio = audioClip, wordAudio = wordAudio });
             }
         }
         catch

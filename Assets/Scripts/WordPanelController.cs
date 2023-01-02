@@ -17,7 +17,13 @@ public class WordPanelController : MonoBehaviour
     private void Init()
     {
         totalWordCount = wordDatas.Count;
-        Camera.main.GetComponent<AudioSource>().clip = wordDatas[0].audio;
+
+        AudioSource audioSource = Camera.main.GetComponent<AudioSource>();
+        audioSource.clip = wordDatas[0].wordAudio;
+        audioSource.Play();
+
+        StartCoroutine(waitForSetAudio(wordDatas[0].audio));
+        
         SetData(wordDatas[0]);
         wordDatas.RemoveAt(0);
 
@@ -52,7 +58,11 @@ public class WordPanelController : MonoBehaviour
             SetEmotion(wordDatas.Count);
             if (wordDatas.Count > 0)
             {
-                Camera.main.GetComponent<AudioSource>().clip = wordDatas[0].audio;
+                var audioSource = Camera.main.GetComponent<AudioSource>();
+                audioSource.clip = wordDatas[0].wordAudio;
+                audioSource.Play();
+
+                StartCoroutine(waitForSetAudio(wordDatas[0].audio));
                 SetData(wordDatas[0]);
             }
             else
@@ -102,5 +112,13 @@ public class WordPanelController : MonoBehaviour
     public void PlayAudio()
     {
         Camera.main.GetComponent<AudioSource>().Play();
+    }
+
+    IEnumerator waitForSetAudio(AudioClip clip)
+    {
+        yield return new WaitForSeconds(1);
+
+        Camera.main.GetComponent<AudioSource>().clip = clip;
+
     }
 }

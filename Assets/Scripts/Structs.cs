@@ -19,6 +19,7 @@ public struct WordData
     public string sentence;
     public Sprite image;
     public AudioClip audio;
+    public AudioClip wordAudio;
 }
 
 [System.Serializable]
